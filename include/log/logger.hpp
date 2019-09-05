@@ -6,7 +6,6 @@
 #include "spdlog/spdlog.h"
 
 std::shared_ptr<spdlog::logger> get_logger();
-void set_log_level(spdlog::level);
 
 #define LOG_TRACE(...) do { \
     auto logger = get_logger(); \
