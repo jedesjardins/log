@@ -7,15 +7,11 @@
 #include "spdlog/sinks/stdout_sinks.h"
 #include "spdlog/sinks/file_sinks.h"
 
-namespace log
-{
 std::shared_ptr<spdlog::logger> get_logger();
 
 std::shared_ptr<spdlog::sinks::stdout_sink_mt> get_console_sink();
 
 std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink();
-
-}; // namespace log
 
 #define LOG_TRACE(...)              \
     do                              \
@@ -63,8 +59,6 @@ std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink();
 
 #ifdef JED_LOG_IMPLEMENTATION
 
-namespace log
-{
 std::shared_ptr<spdlog::sinks::stdout_sink_mt> get_console_sink()
 {
     static auto sink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
@@ -85,6 +79,5 @@ std::shared_ptr<spdlog::logger> get_logger()
 
     return logger;
 }
-}; // namespace log
 
 #endif
