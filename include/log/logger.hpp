@@ -45,7 +45,7 @@ std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink();
     do                              \
     {                               \
         auto logger = get_logger(); \
-        logger->info(__VA_ARGS__);  \
+        logger->error(__VA_ARGS__); \
     } while (0)
 
 #define LOG_CRITICAL(...)              \
