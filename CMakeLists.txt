@@ -35,10 +35,10 @@ target_include_directories(Log
 
 add_library(JED::log ALIAS Log)
 
-if(GFX_BUILD_EXAMPLES)
-	add_subdirectory(examples)
+if(LOG_BUILD_EXAMPLES)
+#	add_subdirectory(examples)
 endif()
 
-if(GFX_BUILD_TESTS)
-	add_subdirectory(tests)
+if(LOG_BUILD_TESTS)
+#	add_subdirectory(tests)
 endif()
