@@ -13,56 +13,67 @@ std::shared_ptr<spdlog::sinks::stdout_sink_mt> get_console_sink();
 
 std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink();
 
-#define LOG_TRACE(...) do { \
-    auto logger = get_logger(); \
-    logger->trace(__VA_ARGS__); \
-} while(0);
+#define LOG_TRACE(...)              \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->trace(__VA_ARGS__); \
+    } while (0)
 
-#define LOG_DEBUG(...) do { \
-    auto logger = get_logger(); \
-    logger->debug(__VA_ARGS__); \
-} while(0);
+#define LOG_DEBUG(...)              \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->debug(__VA_ARGS__); \
+    } while (0)
 
-#define LOG_INFO(...) do { \
-    auto logger = get_logger(); \
-    logger->info(__VA_ARGS__); \
-} while(0);
+#define LOG_INFO(...)               \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->info(__VA_ARGS__);  \
+    } while (0)
 
-#define LOG_WARN(...) do { \
-    auto logger = get_logger(); \
-    logger->warn(__VA_ARGS__); \
-} while(0);
+#define LOG_WARN(...)               \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->warn(__VA_ARGS__);  \
+    } while (0)
 
-#define LOG_ERROR(...) do { \
-    auto logger = get_logger(); \
-    logger->info(__VA_ARGS__); \
-} while(0);
+#define LOG_ERROR(...)              \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->info(__VA_ARGS__);  \
+    } while (0)
 
-#define LOG_CRITICAL(...) do { \
-    auto logger = get_logger(); \
-    logger->critical(__VA_ARGS__); \
-} while(0);
+#define LOG_CRITICAL(...)              \
+    do                                 \
+    {                                  \
+        auto logger = get_logger();    \
+        logger->critical(__VA_ARGS__); \
+    } while (0)
 
 #endif
-
 
 #ifdef JED_LOG_IMPLEMENTATION
 
 std::shared_ptr<spdlog::sinks::stdout_sink_mt> get_console_sink()
 {
-	static auto sink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
+    static auto sink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
 
-	return sink;
+    return sink;
 }
 
 std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink()
 {
-	static auto sink = std::make_shared<spdlog::sinks::simple_file_sink_mt>("log.txt");
+    static auto sink = std::make_shared<spdlog::sinks::simple_file_sink_mt>("log.txt");
 
-	return sink;
+    return sink;
 }
 
-std::shared_ptr<spdlog::logger> get_logger();
+std::shared_ptr<spdlog::logger> get_logger()
 {
     static auto logger = spdlog::create("log", {get_console_sink(), get_file_sink()});
 
