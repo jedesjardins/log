@@ -4,8 +4,14 @@
 #define SPDLOG_NO_NAME
 #define SPDLOG_NO_ATOMIC_LEVELS
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/stdout_sinks.h"
+#include "spdlog/sinks/file_sinks.h"
 
 std::shared_ptr<spdlog::logger> get_logger();
+
+std::shared_ptr<spdlog::sinks::stdout_sink_mt> get_console_sink();
+
+std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink();
 
 #define LOG_TRACE(...) do { \
     auto logger = get_logger(); \
@@ -42,17 +48,18 @@ std::shared_ptr<spdlog::logger> get_logger();
 
 #ifdef JED_LOG_IMPLEMENTATION
 
-#include "spdlog/sinks/stdout_sinks.h"
-#include "spdlog/sinks/file_sinks.h"
-
 std::shared_ptr<spdlog::sinks::stdout_sink_mt> get_console_sink()
 {
-	return std::make_shared<spdlog::sinks::stdout_sink_mt>();
+	static auto sink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
+
+	return sink;
 }
 
 std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink()
 {
-	return std::make_shared<spdlog::sinks::simple_file_sink_mt>("log.txt");
+	static auto sink = std::make_shared<spdlog::sinks::simple_file_sink_mt>("log.txt");
+
+	return sink;
 }
 
 std::shared_ptr<spdlog::logger> get_logger();
