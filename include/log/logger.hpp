@@ -17,46 +17,46 @@ std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink();
 
 }; // namespace log
 
-#define LOG_TRACE(...)                   \
-    do                                   \
-    {                                    \
-        auto logger = log::get_logger(); \
-        logger->trace(__VA_ARGS__);      \
+#define LOG_TRACE(...)              \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->trace(__VA_ARGS__); \
     } while (0)
 
-#define LOG_DEBUG(...)                   \
-    do                                   \
-    {                                    \
-        auto logger = log::get_logger(); \
-        logger->debug(__VA_ARGS__);      \
+#define LOG_DEBUG(...)              \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->debug(__VA_ARGS__); \
     } while (0)
 
-#define LOG_INFO(...)                    \
-    do                                   \
-    {                                    \
-        auto logger = log::get_logger(); \
-        logger->info(__VA_ARGS__);       \
+#define LOG_INFO(...)               \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->info(__VA_ARGS__);  \
     } while (0)
 
-#define LOG_WARN(...)                    \
-    do                                   \
-    {                                    \
-        auto logger = log::get_logger(); \
-        logger->warn(__VA_ARGS__);       \
+#define LOG_WARN(...)               \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->warn(__VA_ARGS__);  \
     } while (0)
 
-#define LOG_ERROR(...)                   \
-    do                                   \
-    {                                    \
-        auto logger = log::get_logger(); \
-        logger->error(__VA_ARGS__);      \
+#define LOG_ERROR(...)              \
+    do                              \
+    {                               \
+        auto logger = get_logger(); \
+        logger->error(__VA_ARGS__); \
     } while (0)
 
-#define LOG_CRITICAL(...)                \
-    do                                   \
-    {                                    \
-        auto logger = log::get_logger(); \
-        logger->critical(__VA_ARGS__);   \
+#define LOG_CRITICAL(...)              \
+    do                                 \
+    {                                  \
+        auto logger = get_logger();    \
+        logger->critical(__VA_ARGS__); \
     } while (0)
 
 #endif
