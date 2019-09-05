@@ -33,10 +33,6 @@ target_include_directories(Log
 	$<BUILD_INTERFACE:${spdlog_SOURCE_DIR}/include>
 )
 
-target_link_libraries(Log INTERFACE
-	Log
-)
-
 add_library(JED::log ALIAS Log)
 
 if(GFX_BUILD_EXAMPLES)
