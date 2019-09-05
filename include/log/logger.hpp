@@ -4,7 +4,9 @@
 #define SPDLOG_NO_NAME
 #define SPDLOG_NO_ATOMIC_LEVELS
 #include "spdlog/spdlog.h"
+
 std::shared_ptr<spdlog::logger> get_logger();
+void set_log_level(spdlog::level);
 
 #define LOG_TRACE(...) do { \
     auto logger = get_logger(); \
@@ -38,21 +40,25 @@ std::shared_ptr<spdlog::logger> get_logger();
 
 #endif
 
+
 #ifdef JED_LOG_IMPLEMENTATION
 
 #include "spdlog/sinks/stdout_sinks.h"
 #include "spdlog/sinks/file_sinks.h"
 
+std::shared_ptr<spdlog::sinks::stdout_sink_mt> get_console_sink()
+{
+	return std::make_shared<spdlog::sinks::stdout_sink_mt>();
+}
+
+std::shared_ptr<spdlog::sinks::simple_file_sink_mt> get_file_sink()
+{
+	return std::make_shared<spdlog::sinks::simple_file_sink_mt>("log.txt");
+}
+
 std::shared_ptr<spdlog::logger> get_logger();
 {
-    static auto console_sink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
-    console_sink->set_level(spdlog::level::warn);
-    static auto file_sink = std::make_shared<spdlog::sinks::simple_file_sink_mt>("log.txt");
-    file_sink->set_level(spdlog::level::trace);
-
-    static auto logger = spdlog::create("log", {console_sink, file_sink});
-
-    logger->set_level(spdlog::level::trace);
+    static auto logger = spdlog::create("log", {get_console_sink(), get_file_sink()});
 
     return logger;
 }
