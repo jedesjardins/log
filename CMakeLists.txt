@@ -8,22 +8,36 @@ option(LOG_BUILD_EXAMPLES "Build documentation examples" OFF)
 option(LOG_BUILD_TESTS "Build documentation tests" OFF)
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "DEBUG" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+	set(CMAKE_BUILD_TYPE "DEBUG" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
 endif()
 
-include(FetchContent)
+find_package(spdlog QUIET)
 
-FetchContent_Declare(
-	spdlog
-	GIT_REPOSITORY https://github.com/gabime/spdlog.git
-)
+if(NOT spdlog_FOUND)
+	message(STATUS "Couldn't find spdlog, fetching from github")
 
-FetchContent_GetProperties(spdlog)
-if(NOT spdlog_POPULATED)
-	FetchContent_Populate(spdlog)
-	message(STATUS "spdlog source dir: ${spdlog_SOURCE_DIR}")
-	message(STATUS "spdlog binary dir: ${spdlog_BINARY_DIR}")
-	message(STATUS "spdlog include dir: ${spdlog_SOURCE_DIR}/include")
+	include(FetchContent)
+
+	FetchContent_Declare(
+		spdlog
+		GIT_REPOSITORY https://github.com/gabime/spdlog.git
+	)
+
+	FetchContent_GetProperties(spdlog)
+	if(NOT spdlog_POPULATED)
+		FetchContent_Populate(spdlog)
+		message(STATUS "spdlog source dir: ${spdlog_SOURCE_DIR}")
+		message(STATUS "spdlog binary dir: ${spdlog_BINARY_DIR}")
+		message(STATUS "spdlog include dir: ${spdlog_SOURCE_DIR}/include")
+	endif()
+
+	add_library(spdlog INTERFACE)
+	target_include_directories(spdlog
+		INTERFACE
+		"$<BUILD_INTERFACE:${spdlog_SOURCE_DIR}/include>"
+	)
+
+	add_library(spdlog::spdlog ALIAS spdlog)
 endif()
 
 add_library(Log INTERFACE)
@@ -33,12 +47,16 @@ target_include_directories(Log
 	$<BUILD_INTERFACE:${spdlog_SOURCE_DIR}/include>
 )
 
+target_link_libraries(Log
+	INTERFACE
+	spdlog::spdlog)
+
 add_library(JED::log ALIAS Log)
 
 if(LOG_BUILD_EXAMPLES)
-#	add_subdirectory(examples)
+#   add_subdirectory(examples)
 endif()
 
 if(LOG_BUILD_TESTS)
-#	add_subdirectory(tests)
+#   add_subdirectory(tests)
 endif()
