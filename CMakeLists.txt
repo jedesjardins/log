@@ -26,9 +26,6 @@ if(NOT spdlog_FOUND)
 	FetchContent_GetProperties(spdlog)
 	if(NOT spdlog_POPULATED)
 		FetchContent_Populate(spdlog)
-		message(STATUS "spdlog source dir: ${spdlog_SOURCE_DIR}")
-		message(STATUS "spdlog binary dir: ${spdlog_BINARY_DIR}")
-		message(STATUS "spdlog include dir: ${spdlog_SOURCE_DIR}/include")
 	endif()
 
 	add_library(spdlog INTERFACE)
@@ -44,7 +41,6 @@ add_library(Log INTERFACE)
 target_include_directories(Log
 	INTERFACE
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
-	$<BUILD_INTERFACE:${spdlog_SOURCE_DIR}/include>
 )
 
 target_link_libraries(Log
